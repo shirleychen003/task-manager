@@ -21,25 +21,19 @@ The project is organized into modular components adhering to the MVC (Model-View
 project/
 ├── main.py
 ├── models/
-│ ├── __init__.py
 │ ├── task_model.py
 │ └── preferences_model.py
 ├── views/
-│ ├── __init__.py
 │ ├── main_window.py
 │ ├── task_form.py
 │ └── task_view.py
 ├── controllers/
-│ ├── __init__.py
 │ ├── task_controller.py
 │ └── preferences_controller.py
 ├── utils/
-│ ├── __init__.py
 │ ├── database.py
 │ ├── notifications.py
 │ └── visualizations.py
-├── resources/
-│ └── (static resources like icons and stylesheets)
 └── README.md
 ```
 
@@ -51,14 +45,12 @@ project/
 - **models/:**  
   Contains data models representing the core data structures.
   
-  - `__init__.py`: Makes the `models` directory a Python package.
   - `task_model.py`: Defines the `Task` class representing a task entity.
   - `preferences_model.py`: Defines the `Preferences` class managing user settings.
 
 - **views/:**  
   Contains GUI components built using Tkinter.
   
-  - `__init__.py`: Makes the `views` directory a Python package.
   - `main_window.py`: Sets up the main application window and integrates other views.
   - `task_form.py`: Provides a form for adding and editing tasks.
   - `task_view.py`: Displays the list of tasks in a tabular format.
@@ -66,14 +58,12 @@ project/
 - **controllers/:**  
   Contains application logic handling the interaction between models and views.
   
-  - `__init__.py`: Makes the `controllers` directory a Python package.
   - `task_controller.py`: Manages task-related operations such as adding, editing, and deleting tasks.
   - `preferences_controller.py`: Manages user preferences and applies settings to the UI.
 
 - **utils/:**  
   Provides utility modules supporting various functionalities.
   
-  - `__init__.py`: Makes the `utils` directory a Python package.
   - `database.py`: Handles database connections and operations using SQLite.
   - `notifications.py`: Manages scheduling and sending task reminders.
   - `visualizations.py`: Generates visual representations of task progress.
@@ -91,7 +81,7 @@ project/
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/task-manager.git
+   git clone https://github.com/shirleychen003/task-manager
    cd task-manager
    ```
 
@@ -114,7 +104,13 @@ project/
 
 ### Running the Application
 
-Navigate to the project directory and execute the `main.py` script:
+Navigate to the project directory:
+
+```bash
+cd task-manager
+```
+
+Execute the `main.py` script:
 
 ```bash
 python main.py
@@ -655,25 +651,6 @@ if __name__ == '__main__':
 - **Minimalist Design:**  
   A clean and simple interface reduces cognitive load and enhances focus.
 
-## Testing
-
-The project includes unit tests to ensure the reliability and correctness of models, controllers, and utilities.
-
-### Running Tests
-
-1. **Navigate to the Project Directory**
-
-   ```bash
-   cd project
-   ```
-
-2. **Run Tests Using `unittest`**
-
-   ```bash
-   python -m unittest discover tests
-   ```
-
-   This command discovers and runs all test cases within the `tests/` directory.
 
 ## Contributing
 
