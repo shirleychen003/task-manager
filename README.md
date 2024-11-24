@@ -122,14 +122,22 @@ This will launch the Task Manager application window, where you can start adding
 
 1. **Adding a Task:**
    - Fill in the task details in the **Task Form** at the top of the window.
-   - Click the **"Add Task"** button to save the task. The task list below will update automatically.
+   - Click the **"Add Task"** button to save the task.
 
 2. **Viewing Tasks:**
    - The **Task View** displays all tasks in a table format, showing details like Title, Description, Deadline, Priority, and Status.
+   - **Select a Task:** Click on a task row to select it.
 
 3. **Managing Tasks:**
-   - **Mark as Complete:** Right-click on a task and select **"Mark as Complete"** to update its status.
-   - **Delete Task:** Right-click on a task and select **"Delete Task"** to remove it from the list.
+   - **Edit Task:**
+     - Select a task by clicking on its row in the **Task View**.
+     - Click the **"Edit Task"** button below the task list.
+     - An edit form will appear, allowing you to modify the task details.
+   
+   - **Delete Task:**
+     - Select a task by clicking on its row in the **Task View**.
+     - Click the **"Delete Task"** button below the task list.
+     - Confirm the deletion in the prompted dialog.
 
 4. **Preferences:**
    - Access the **Preferences** menu from the menu bar to change themes and adjust font sizes for better accessibility.
@@ -363,6 +371,7 @@ class TaskView(tk.Frame):
         self.tree.bind("<Button-3>", self.show_context_menu)
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Mark as Complete", command=self.mark_complete)
+        self.menu.add_command(label="Edit Task", command=self.edit_task)
         self.menu.add_command(label="Delete Task", command=self.delete_task)
     
     def refresh_tasks(self):
@@ -386,12 +395,21 @@ class TaskView(tk.Frame):
             self.task_controller.mark_task_complete(task_id)
             self.refresh_tasks()
     
+    def edit_task(self):
+        selected = self.tree.selection()
+        if selected:
+            task_data = self.tree.item(selected[0])['values']
+            edit_form = EditTaskForm(self, self.task_controller, task_data, on_task_updated=self.refresh_tasks)
+            edit_form.grab_set()
+    
     def delete_task(self):
         selected = self.tree.selection()
         if selected:
             task_id = self.tree.item(selected[0])['values'][0]
-            self.task_controller.delete_task(task_id)
-            self.refresh_tasks()
+            confirm = tk.messagebox.askyesno("Delete Task", "Are you sure you want to delete this task?")
+            if confirm:
+                self.task_controller.delete_task(task_id)
+                self.refresh_tasks()
 ```
 
 ### Controllers

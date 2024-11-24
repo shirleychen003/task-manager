@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime
+from tkinter import messagebox
 
 class TaskForm(tk.Frame):
     def __init__(self, parent, task_controller, on_task_added=None):
@@ -11,34 +12,38 @@ class TaskForm(tk.Frame):
     
     def create_widgets(self):
         # Title
-        tk.Label(self, text="Title:").grid(row=0, column=0, padx=5, pady=5)
-        self.title_entry = tk.Entry(self)
+        tk.Label(self, text="Title:").grid(row=0, column=0, padx=5, pady=5, sticky='e')
+        self.title_entry = tk.Entry(self, width=50)
         self.title_entry.grid(row=0, column=1, padx=5, pady=5)
         
         # Description
-        tk.Label(self, text="Description:").grid(row=1, column=0, padx=5, pady=5)
-        self.description_entry = tk.Entry(self)
+        tk.Label(self, text="Description:").grid(row=1, column=0, padx=5, pady=5, sticky='e')
+        self.description_entry = tk.Entry(self, width=50)
         self.description_entry.grid(row=1, column=1, padx=5, pady=5)
         
         # Deadline
-        tk.Label(self, text="Deadline (YYYY-MM-DD):").grid(row=2, column=0, padx=5, pady=5)
-        self.deadline_entry = tk.Entry(self)
+        tk.Label(self, text="Deadline (YYYY-MM-DD):").grid(row=2, column=0, padx=5, pady=5, sticky='e')
+        self.deadline_entry = tk.Entry(self, width=50)
         self.deadline_entry.grid(row=2, column=1, padx=5, pady=5)
         
         # Priority
-        tk.Label(self, text="Priority:").grid(row=3, column=0, padx=5, pady=5)
+        tk.Label(self, text="Priority:").grid(row=3, column=0, padx=5, pady=5, sticky='e')
         self.priority_var = tk.StringVar(value='Low')
-        ttk.Combobox(self, textvariable=self.priority_var, values=['High', 'Medium', 'Low']).grid(row=3, column=1, padx=5, pady=5)
+        ttk.Combobox(self, textvariable=self.priority_var, values=['High', 'Medium', 'Low'], state='readonly').grid(row=3, column=1, padx=5, pady=5, sticky='w')
         
         # Add Task Button
         add_button = tk.Button(self, text="Add Task", command=self.add_task)
         add_button.grid(row=4, column=0, columnspan=2, pady=10)
     
     def add_task(self):
-        title = self.title_entry.get()
-        description = self.description_entry.get()
-        deadline_str = self.deadline_entry.get()
+        title = self.title_entry.get().strip()
+        description = self.description_entry.get().strip()
+        deadline_str = self.deadline_entry.get().strip()
         priority = self.priority_var.get()
+        
+        if not title:
+            messagebox.showerror("Invalid Input", "Title cannot be empty.")
+            return
         
         try:
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
@@ -62,4 +67,6 @@ class TaskForm(tk.Frame):
         
         # Invoke the callback to refresh the task list
         if self.on_task_added:
-            self.on_task_added() 
+            self.on_task_added()
+        
+        messagebox.showinfo("Success", "Task added successfully.") 
