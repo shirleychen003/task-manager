@@ -1,5 +1,6 @@
 from models.task_model import Task
 from utils.database import Database
+from datetime import datetime
 
 class TaskController:
     def __init__(self):
@@ -18,6 +19,8 @@ class TaskController:
         self.db.insert_task(task)
     
     def edit_task(self, task_id, updated_data):
+        if isinstance(updated_data.get('deadline'), datetime):
+            updated_data['deadline'] = updated_data['deadline'].strftime('%Y-%m-%d')
         self.db.update_task(task_id, updated_data)
     
     def delete_task(self, task_id):
@@ -33,4 +36,11 @@ class TaskController:
         return self.db.get_tasks_by_priority(priority)
     
     def get_all_tasks(self):
-        return self.db.get_all_tasks() 
+        return self.db.get_all_tasks()
+    
+    def get_task_by_id(self, task_id):
+        tasks = self.get_all_tasks()
+        for task in tasks:
+            if task.id == task_id:
+                return task
+        return None 

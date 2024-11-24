@@ -4,6 +4,7 @@ from controllers.task_controller import TaskController
 from controllers.preferences_controller import PreferencesController
 from views.task_form import TaskForm
 from views.task_view import TaskView
+from views.edit_task_form import EditTaskForm
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -22,12 +23,16 @@ class MainWindow(tk.Tk):
         # Set up menu
         self.create_menu()
         
-        # Initialize Views
+        # Initialize Task View
         self.task_view = TaskView(self, self.task_controller)
         self.task_view.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
+        # Initialize Task Form
         self.task_form = TaskForm(self, self.task_controller, on_task_added=self.task_view.refresh_tasks)
         self.task_form.pack(side=tk.TOP, fill=tk.X)
+        
+        # Initialize Action Buttons
+        self.create_action_buttons()
     
     def create_menu(self):
         menubar = tk.Menu(self)
@@ -39,6 +44,16 @@ class MainWindow(tk.Tk):
         menubar.add_cascade(label="Preferences", menu=preferences_menu)
         
         self.config(menu=menubar)
+    
+    def create_action_buttons(self):
+        button_frame = tk.Frame(self)
+        button_frame.pack(side=tk.TOP, fill=tk.X, pady=10)
+        
+        edit_button = tk.Button(button_frame, text="Edit Task", command=self.edit_task)
+        edit_button.pack(side=tk.LEFT, padx=10)
+        
+        delete_button = tk.Button(button_frame, text="Delete Task", command=self.delete_task)
+        delete_button.pack(side=tk.LEFT, padx=10)
     
     def change_theme(self):
         # Implement theme change
@@ -66,3 +81,33 @@ class MainWindow(tk.Tk):
                 widget.configure(font=default_font, bg=bg_color, fg=fg_color)
             except:
                 pass  # Some widgets may not support these options
+    
+    def get_selected_task(self):
+        selected = self.task_view.get_selected_task()
+        return selected
+    
+    def edit_task(self):
+        selected_task = self.get_selected_task()
+        if selected_task:
+            task_data = (
+                selected_task.id,
+                selected_task.title,
+                selected_task.description,
+                selected_task.deadline.strftime('%Y-%m-%d') if selected_task.deadline else '',
+                selected_task.priority,
+                selected_task.status
+            )
+            edit_form = EditTaskForm(self, self.task_controller, task_data, on_task_updated=self.task_view.refresh_tasks)
+            edit_form.grab_set()
+        else:
+            tk.messagebox.showwarning("No Selection", "Please select a task to edit.")
+    
+    def delete_task(self):
+        selected_task = self.get_selected_task()
+        if selected_task:
+            confirm = tk.messagebox.askyesno("Delete Task", "Are you sure you want to delete this task?")
+            if confirm:
+                self.task_controller.delete_task(selected_task.id)
+                self.task_view.refresh_tasks()
+        else:
+            tk.messagebox.showwarning("No Selection", "Please select a task to delete.")

@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from views.edit_task_form import EditTaskForm
+from tkinter import messagebox
 
 class TaskView(tk.Frame):
     def __init__(self, parent, task_controller):
@@ -10,16 +12,14 @@ class TaskView(tk.Frame):
     
     def create_widgets(self):
         columns = ('ID', 'Title', 'Description', 'Deadline', 'Priority', 'Status')
-        self.tree = ttk.Treeview(self, columns=columns, show='headings')
+        self.tree = ttk.Treeview(self, columns=columns, show='headings', selectmode='browse')
         for col in columns:
             self.tree.heading(col, text=col)
+            self.tree.column(col, width=100, anchor='center')
         self.tree.pack(fill=tk.BOTH, expand=True)
         
-        # Context Menu
-        self.tree.bind("<Button-3>", self.show_context_menu)
-        self.menu = tk.Menu(self, tearoff=0)
-        self.menu.add_command(label="Mark as Complete", command=self.mark_complete)
-        self.menu.add_command(label="Delete Task", command=self.delete_task)
+        # Optional: Bind double-click to edit task
+        self.tree.bind("<Double-1>", self.on_double_click)
     
     def refresh_tasks(self):
         for row in self.tree.get_children():
@@ -29,22 +29,31 @@ class TaskView(tk.Frame):
             deadline = task.deadline.strftime('%Y-%m-%d') if task.deadline else ''
             self.tree.insert('', tk.END, values=(task.id, task.title, task.description, deadline, task.priority, task.status))
     
-    def show_context_menu(self, event):
-        selected_item = self.tree.identify_row(event.y)
+    def get_selected_task(self):
+        selected = self.tree.selection()
+        if selected:
+            task_id = self.tree.item(selected[0])['values'][0]
+            tasks = self.task_controller.get_all_tasks()
+            for task in tasks:
+                if task.id == task_id:
+                    return task
+        return None
+    
+    def on_double_click(self, event):
+        selected_item = self.tree.selection()
         if selected_item:
-            self.tree.selection_set(selected_item)
-            self.menu.post(event.x_root, event.y_root)
-    
-    def mark_complete(self):
-        selected = self.tree.selection()
-        if selected:
-            task_id = self.tree.item(selected[0])['values'][0]
-            self.task_controller.mark_task_complete(task_id)
-            self.refresh_tasks()
-    
-    def delete_task(self):
-        selected = self.tree.selection()
-        if selected:
-            task_id = self.tree.item(selected[0])['values'][0]
-            self.task_controller.delete_task(task_id)
-            self.refresh_tasks() 
+            task_id = self.tree.item(selected_item[0])['values'][0]
+            tasks = self.task_controller.get_all_tasks()
+            for task in tasks:
+                if task.id == task_id:
+                    task_data = (
+                        task.id,
+                        task.title,
+                        task.description,
+                        task.deadline.strftime('%Y-%m-%d') if task.deadline else '',
+                        task.priority,
+                        task.status
+                    )
+                    edit_form = EditTaskForm(self, self.task_controller, task_data, on_task_updated=self.refresh_tasks)
+                    edit_form.grab_set()
+                    break 
