@@ -1,33 +1,33 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from datetime import datetime
-from tkinter import messagebox
 
 class TaskForm(tk.Frame):
-    def __init__(self, parent, task_controller, on_task_added=None):
+    def __init__(self, parent, task_controller, show_overlay, on_task_added=None):
         super().__init__(parent)
         self.task_controller = task_controller
+        self.show_overlay = show_overlay
         self.on_task_added = on_task_added
         self.create_widgets()
     
     def create_widgets(self):
         # Title
-        tk.Label(self, text="Title:").grid(row=0, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Title:", bg=self['bg']).grid(row=0, column=0, padx=5, pady=5, sticky='e')
         self.title_entry = tk.Entry(self, width=50)
         self.title_entry.grid(row=0, column=1, padx=5, pady=5)
         
         # Description
-        tk.Label(self, text="Description:").grid(row=1, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Description:", bg=self['bg']).grid(row=1, column=0, padx=5, pady=5, sticky='e')
         self.description_entry = tk.Entry(self, width=50)
         self.description_entry.grid(row=1, column=1, padx=5, pady=5)
         
         # Deadline
-        tk.Label(self, text="Deadline (YYYY-MM-DD):").grid(row=2, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Deadline (YYYY-MM-DD):", bg=self['bg']).grid(row=2, column=0, padx=5, pady=5, sticky='e')
         self.deadline_entry = tk.Entry(self, width=50)
         self.deadline_entry.grid(row=2, column=1, padx=5, pady=5)
         
         # Priority
-        tk.Label(self, text="Priority:").grid(row=3, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Priority:", bg=self['bg']).grid(row=3, column=0, padx=5, pady=5, sticky='e')
         self.priority_var = tk.StringVar(value='Low')
         ttk.Combobox(self, textvariable=self.priority_var, values=['High', 'Medium', 'Low'], state='readonly').grid(row=3, column=1, padx=5, pady=5, sticky='w')
         
@@ -45,10 +45,17 @@ class TaskForm(tk.Frame):
             messagebox.showerror("Invalid Input", "Title cannot be empty.")
             return
         
-        try:
-            deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
-        except ValueError:
-            deadline = None  # Handle invalid date format as needed
+        # Handle deadline validation
+        deadline = None
+        if deadline_str:  # Only validate if a deadline was entered
+            try:
+                deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
+            except ValueError:
+                messagebox.showerror(
+                    "Invalid Date", 
+                    "Please enter the deadline in YYYY-MM-DD format.\nExample: 2024-12-31"
+                )
+                return
         
         task_data = {
             'title': title,
