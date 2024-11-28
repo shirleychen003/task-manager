@@ -14,5 +14,4 @@ def main():
     app.mainloop()
     notification_manager.stop_scheduler()
 
-if __name__ == '__main__':
     main() 
