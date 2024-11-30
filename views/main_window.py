@@ -10,7 +10,7 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Accessible Task Manager")
-        self.geometry("800x600")
+        self.geometry("1400x1080+900+500")
         
         # Initialize Controllers
         self.task_controller = TaskController()
@@ -118,7 +118,7 @@ class MainWindow(tk.Tk):
             )
             self.show_overlay(EditTaskForm, task_data, on_task_updated=self.task_view.refresh_tasks)
         else:
-            messagebox.showwarning("No Selection", "Please select a task to edit.")
+            messagebox.showwarning("No Selection", "edit this.")
 
     def delete_task(self):
         selected_task = self.get_selected_task()

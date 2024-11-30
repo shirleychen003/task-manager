@@ -1,11 +1,29 @@
 import sqlite3
+import threading
 from models.task_model import Task
 from datetime import datetime
 
 class Database:
-    def __init__(self, db_path='utils/tasks.db'):
-        self.conn = sqlite3.connect(db_path)
-        self.cursor = self.conn.cursor()
+    _local = threading.local()
+    
+    def __init__(self, db_path='task-manager/utils/tasks.db'):
+        self.db_path = db_path
+        self._init_connection()
+    
+    def _init_connection(self):
+        if not hasattr(self._local, 'connection'):
+            self._local.connection = sqlite3.connect(self.db_path)
+            self._local.cursor = self._local.connection.cursor()
+    
+    @property
+    def conn(self):
+        self._init_connection()
+        return self._local.connection
+    
+    @property
+    def cursor(self):
+        self._init_connection()
+        return self._local.cursor
     
     def create_tasks_table(self):
         self.cursor.execute('''

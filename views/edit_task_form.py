@@ -56,7 +56,7 @@ class EditTaskForm(tk.Frame):
             deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
         except ValueError:
             messagebox.showerror("Invalid Date", "Please enter the deadline in YYYY-MM-DD format.")
-            return  # Prevent updating if the date is invalid
+            return
         
         if not title:
             messagebox.showerror("Invalid Input", "Title cannot be empty.")
@@ -72,8 +72,8 @@ class EditTaskForm(tk.Frame):
         
         self.task_controller.edit_task(self.task_id, updated_data)
         
-        # Close the edit form
-        self.parent.master.hide_overlay()
+        # Close the Toplevel window instead of hiding overlay
+        self.parent.destroy()
         
         # Refresh the task list
         if self.on_task_updated:
