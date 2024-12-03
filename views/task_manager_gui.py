@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 from views.edit_task_form import EditTaskForm
+import logging
 
 class TaskManagerGUI(tk.Tk):
     def __init__(self, task_controller):
@@ -269,10 +270,10 @@ class TaskManagerGUI(tk.Tk):
             items = [self.current_tasks.item(item)['values'] for item in self.current_tasks.get_children()]
             print(f"Unsorted items: {items}")
             
-            # Sort items
+            # Sort items by Deadline (index 2)
             sorted_items = sorted(
                 items,
-                key=lambda x: datetime.strptime(x[3], '%Y-%m-%d') if x and len(x) > 3 and x[3] else datetime.max
+                key=lambda x: datetime.strptime(x[2], '%Y-%m-%d') if x and len(x) > 2 and x[2] else datetime.max
             )
             print(f"Sorted items: {sorted_items}")
             
@@ -288,7 +289,7 @@ class TaskManagerGUI(tk.Tk):
             print("sort_by_date completed successfully.")
         
         except Exception as e:
-            print(f"Error in sort_by_date: {e}")
+            print(f"An error occurred while sorting by date: {e}")
             messagebox.showerror("Sort Error", f"An error occurred while sorting by date: {e}")
 
     def edit_selected_task(self):

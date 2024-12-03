@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+import logging
 
 class EditTaskForm(tk.Frame):
     def __init__(self, parent, task_controller, task_data, on_task_updated=None):
