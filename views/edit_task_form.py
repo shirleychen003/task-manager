@@ -1,44 +1,46 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+import logging
 
 class EditTaskForm(tk.Frame):
-    def __init__(self, parent, task_controller, task_data, on_task_updated=None):
+    def __init__(self, parent, task_controller, task, on_task_updated=None):
         super().__init__(parent)
         self.parent = parent
         self.task_controller = task_controller
-        self.task_id = task_data[0]
+        self.task = task
         self.on_task_updated = on_task_updated
         self.configure(bg='white')
-        self.create_widgets(task_data)
+        self.create_widgets()
     
-    def create_widgets(self, task_data):
+    def create_widgets(self):
         # Title
         tk.Label(self, text="Title:", bg='white').grid(row=0, column=0, padx=10, pady=10, sticky='e')
         self.title_entry = tk.Entry(self, width=40)
         self.title_entry.grid(row=0, column=1, padx=10, pady=10)
-        self.title_entry.insert(0, task_data[1])
+        self.title_entry.insert(0, self.task.title)
         
         # Description
         tk.Label(self, text="Description:", bg='white').grid(row=1, column=0, padx=10, pady=10, sticky='e')
         self.description_entry = tk.Entry(self, width=40)
         self.description_entry.grid(row=1, column=1, padx=10, pady=10)
-        self.description_entry.insert(0, task_data[2])
+        self.description_entry.insert(0, self.task.description)
         
         # Deadline
         tk.Label(self, text="Deadline (YYYY-MM-DD):", bg='white').grid(row=2, column=0, padx=10, pady=10, sticky='e')
         self.deadline_entry = tk.Entry(self, width=40)
         self.deadline_entry.grid(row=2, column=1, padx=10, pady=10)
-        self.deadline_entry.insert(0, task_data[3])
+        deadline_str = self.task.deadline.strftime('%Y-%m-%d') if self.task.deadline else ''
+        self.deadline_entry.insert(0, deadline_str)
         
         # Priority
         tk.Label(self, text="Priority:", bg='white').grid(row=3, column=0, padx=10, pady=10, sticky='e')
-        self.priority_var = tk.StringVar(value=task_data[4])
+        self.priority_var = tk.StringVar(value=self.task.priority)
         ttk.Combobox(self, textvariable=self.priority_var, values=['High', 'Medium', 'Low'], state='readonly').grid(row=3, column=1, padx=10, pady=10, sticky='w')
         
         # Status
         tk.Label(self, text="Status:", bg='white').grid(row=4, column=0, padx=10, pady=10, sticky='e')
-        self.status_var = tk.StringVar(value=task_data[5])
+        self.status_var = tk.StringVar(value=self.task.status)
         ttk.Combobox(self, textvariable=self.status_var, values=['Pending', 'Completed'], state='readonly').grid(row=4, column=1, padx=10, pady=10, sticky='w')
         
         # Update Task Button
@@ -52,15 +54,21 @@ class EditTaskForm(tk.Frame):
         priority = self.priority_var.get()
         status = self.status_var.get()
         
-        try:
-            deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
-        except ValueError:
-            messagebox.showerror("Invalid Date", "Please enter the deadline in YYYY-MM-DD format.")
-            return
-        
         if not title:
             messagebox.showerror("Invalid Input", "Title cannot be empty.")
             return
+        
+        # Handle deadline validation
+        deadline = None
+        if deadline_str:
+            try:
+                deadline = datetime.strptime(deadline_str, '%Y-%m-%d')
+            except ValueError:
+                messagebox.showerror(
+                    "Invalid Date",
+                    "Please enter the deadline in YYYY-MM-DD format.\nExample: 2024-12-31"
+                )
+                return
         
         updated_data = {
             'title': title,
@@ -70,11 +78,10 @@ class EditTaskForm(tk.Frame):
             'status': status
         }
         
-        self.task_controller.edit_task(self.task_id, updated_data)
+        self.task_controller.edit_task(self.task.id, updated_data)
         
-        # Close the Toplevel window instead of hiding overlay
-        self.parent.destroy()
-        
-        # Refresh the task list
         if self.on_task_updated:
             self.on_task_updated()
+        
+        messagebox.showinfo("Success", "Task updated successfully.")
+        self.parent.destroy()

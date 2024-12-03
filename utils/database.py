@@ -2,6 +2,9 @@ import sqlite3
 import threading
 from models.task_model import Task
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Database:
     _local = threading.local()
@@ -9,6 +12,7 @@ class Database:
     def __init__(self, db_path='utils/tasks.db'):
         self.db_path = db_path
         self._init_connection()
+        logging.debug(f"Database initialized with path: {self.db_path}")
     
     def _init_connection(self):
         if not hasattr(self._local, 'connection'):
@@ -39,20 +43,28 @@ class Database:
         self.conn.commit()
     
     def insert_task(self, task):
-        deadline = task.deadline.strftime('%Y-%m-%d') if task.deadline else None
-        self.cursor.execute('''
-            INSERT INTO tasks (title, description, deadline, priority, status)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (task.title, task.description, deadline, task.priority, task.status))
-        self.conn.commit()
+        try:
+            deadline = task.deadline.strftime('%Y-%m-%d') if task.deadline else None
+            self.cursor.execute('''
+                INSERT INTO tasks (title, description, deadline, priority, status)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (task.title, task.description, deadline, task.priority, task.status))
+            self.conn.commit()
+            logging.debug(f"Inserted task: {task.title}")
+        except sqlite3.Error as e:
+            logging.error(f"Error inserting task: {e}")
     
     def update_task(self, task_id, updated_data):
-        fields = ', '.join(f"{key}=?" for key in updated_data.keys())
-        values = list(updated_data.values())
-        values.append(task_id)
-        query = f"UPDATE tasks SET {fields} WHERE id=?"
-        self.cursor.execute(query, values)
-        self.conn.commit()
+        try:
+            fields = ', '.join(f"{key}=?" for key in updated_data.keys())
+            values = list(updated_data.values())
+            values.append(task_id)
+            query = f"UPDATE tasks SET {fields} WHERE id=?"
+            self.cursor.execute(query, values)
+            self.conn.commit()
+            logging.debug(f"Task ID {task_id} updated with {updated_data}")
+        except sqlite3.Error as e:
+            logging.error(f"Failed to update task ID {task_id}: {e}")
     
     def delete_task(self, task_id):
         self.cursor.execute('DELETE FROM tasks WHERE id=?', (task_id,))
