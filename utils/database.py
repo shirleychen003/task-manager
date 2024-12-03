@@ -6,7 +6,7 @@ from datetime import datetime
 class Database:
     _local = threading.local()
     
-    def __init__(self, db_path='task-manager/utils/tasks.db'):
+    def __init__(self, db_path='utils/tasks.db'):
         self.db_path = db_path
         self._init_connection()
     
