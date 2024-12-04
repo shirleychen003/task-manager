@@ -270,10 +270,6 @@ Below are some example screenshots of the Task Manager application in action.
 - **High-Contrast Options:** Enhances visibility for users with visual impairments.
 - **Minimalist Design:** Clean interface to reduce cognitive load.
 
-## Contributing
-
-Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
