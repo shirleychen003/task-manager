@@ -215,6 +215,15 @@ python main.py
    - Select a task from the list.
    - Click on **"Mark Complete"** to update the task status.
 
+6. **Clearing All Tasks (for testing purposes):**
+
+   - To clear all tasks from the database, run:
+     ```bash
+     python clear_db.py
+     ```
+   - This will remove both pending and completed tasks.
+   - Use with caution as this action cannot be undone.
+
 ## Accessibility Features
 
 - **Themes and Stylesheets:** Offers light and dark themes for visual comfort.

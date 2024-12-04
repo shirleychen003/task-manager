@@ -44,3 +44,6 @@ class TaskController:
             if task.id == task_id:
                 return task
         return None
+    
+    def clear_all_tasks(self):
+        self.db.clear_all_tasks()

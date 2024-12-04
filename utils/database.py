@@ -95,3 +95,11 @@ class Database:
             priority=row[4],
             status=row[5]
         ) 
+    
+    def clear_all_tasks(self):
+        try:
+            self.cursor.execute('DELETE FROM tasks')
+            self.conn.commit()
+            logging.debug("All tasks cleared from database")
+        except sqlite3.Error as e:
+            logging.error(f"Error clearing tasks: {e}")
