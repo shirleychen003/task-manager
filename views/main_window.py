@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from controllers.task_controller import TaskController
-from controllers.preferences_controller import PreferencesController
 from views.task_form import TaskForm
 from views.task_view import TaskView
 from views.edit_task_form import EditTaskForm
@@ -14,11 +13,6 @@ class MainWindow(tk.Tk):
         
         # Initialize Controllers
         self.task_controller = TaskController()
-        self.preferences_controller = PreferencesController()
-        
-        # Initialize Preferences
-        self.preferences_controller.load_preferences()
-        self.apply_preferences()
         
         # Set up menu
         self.create_menu()

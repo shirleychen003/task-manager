@@ -33,7 +33,6 @@ project/
 ├── setup.py                   # Installation script
 ├── models/
 │   ├── task_model.py          # Task data model
-│   └── preferences_model.py   # User preferences model
 ├── views/
 │   ├── task_manager_gui.py    # Main GUI window
 │   ├── task_form.py           # Form to add new tasks
@@ -41,7 +40,6 @@ project/
 │   └── edit_task_form.py      # Form to edit existing tasks
 ├── controllers/
 │   ├── task_controller.py     # Handles task operations
-│   └── preferences_controller.py # Handles user preferences
 ├── utils/
 │   ├── database.py            # Database interactions
 │   ├── notifications.py       # Notification scheduling
