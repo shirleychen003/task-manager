@@ -267,8 +267,6 @@ Below are some example screenshots of the Task Manager application in action.
 
 ## Accessibility Features
 
-- **Themes and Stylesheets:** Offers light and dark themes for visual comfort.
-- **Adjustable Font Sizes:** Increase or decrease font sizes for readability.
 - **High-Contrast Options:** Enhances visibility for users with visual impairments.
 - **Minimalist Design:** Clean interface to reduce cognitive load.
 
