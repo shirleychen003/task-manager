@@ -216,11 +216,54 @@ python main.py
 6. **Clearing All Tasks (for testing purposes):**
 
    - To clear all tasks from the database, run:
+
      ```bash
      python clear_db.py
      ```
+
    - This will remove both pending and completed tasks.
    - Use with caution as this action cannot be undone.
+
+## Example Output Screenshots
+
+Below are some example screenshots of the Task Manager application in action.
+
+### Main Application Window
+
+![Main Application Window](output-examples/running_main.png)
+
+*The main window displays your current tasks and allows you to add, edit, or delete tasks easily.*
+
+### Adding a New Task
+
+![Adding a New Task](output-examples/running_add_task.png)
+
+*The "Add Task" form lets you input the task details, including title, description, deadline, and priority.*
+
+### Editing an Existing Task
+
+![Editing a Task](output-examples/running_edit_task.png)
+
+*You can edit any existing task to update its details or change its status.*
+
+### Deleting a Task
+
+![Deleting a Task](output-examples/deleting_task.png)
+
+*Pop-up window will ask you to confirm the deletion of the task.*
+
+### Sorting Tasks by Deadline
+
+![Sorting Tasks by Deadline](output-examples/date_sort.png)
+
+*You can sort the tasks by deadline to see which tasks are due soonest.*
+
+### Sorting Tasks by Priority
+
+![Sorting Tasks by Priority](output-examples/priority_sort.png)
+
+*You can sort the tasks by priority to see which tasks are most important.*
+
 
 ## Accessibility Features
 
