@@ -260,7 +260,7 @@ Below are some example screenshots of the Task Manager application in action.
 
 ### Sorting Tasks by Priority
 
-![Sorting Tasks by Priority](output-examples/priority_sort.png)
+![Sorting Tasks by Priority](output-examples/prio_sort.png)
 
 *You can sort the tasks by priority to see which tasks are most important.*
 
