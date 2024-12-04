@@ -94,7 +94,7 @@ class MainWindow(tk.Tk):
         self.configure(bg=bg_color)
         
         # Apply font size
-        default_font = ('Arial', prefs.font_size)
+        default_font = ('Satoshi', prefs.font_size)
         for widget in self.winfo_children():
             try:
                 widget.configure(font=default_font, bg=bg_color, fg=fg_color)

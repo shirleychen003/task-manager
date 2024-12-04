@@ -20,7 +20,7 @@ class TaskManagerGUI(tk.Tk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
         
-        self.configure(bg='#87CEFA')
+        self.configure(bg='#f0f0f0')
         
         self.create_header()
         self.create_current_tasks_section()
@@ -30,14 +30,15 @@ class TaskManagerGUI(tk.Tk):
         self.refresh_tasks()
     
     def create_header(self):
-        header_frame = tk.Frame(self, bg='#87CEFA')
+        header_frame = tk.Frame(self, bg='#6FA7F9')
         header_frame.pack(fill='x', pady=20)
         
         title = tk.Label(
             header_frame, 
-            text="DAVID'S TASKS",
-            font=('Arial', 24, 'bold'),
-            bg='#87CEFA'
+            text="Your Task Manager :)",
+            font=('Satoshi', 24, 'bold'),
+            bg='#6FA7F9',
+            fg='black'
         )
         title.pack()
         
@@ -45,8 +46,9 @@ class TaskManagerGUI(tk.Tk):
         date_label = tk.Label(
             header_frame,
             text=today,
-            font=('Arial', 14),
-            bg='#87CEFA'
+            font=('Satoshi', 14),
+            bg='#6FA7F9',
+            fg='black'
         )
         date_label.pack()
     
@@ -54,26 +56,34 @@ class TaskManagerGUI(tk.Tk):
         tk.Label(
             self,
             text="Your Current Tasks:",
-            font=('Arial', 18, 'bold'),
-            bg='#87CEFA',
+            font=('Satoshi', 18, 'bold'),
+            bg='#f0f0f0',
+            fg='black',
             anchor='w'
         ).pack(padx=20, pady=(20,10), anchor='w')
         
         # Sort Buttons Frame
-        sort_frame = tk.Frame(self, bg='#87CEFA')
+        sort_frame = tk.Frame(self, bg='#f0f0f0')
         sort_frame.pack(fill='x', padx=20)
         
-        sort_label = tk.Label(sort_frame, text="Sort By:", bg='#4169E1', fg='white',
-                              padx=20, pady=5, relief='flat')
+        sort_label = tk.Label(sort_frame, text="Sort By:", bg='#277EFE', fg='black',
+                            padx=20, pady=5)
         sort_label.pack(side='left', padx=(0,10))
         
-        priority_btn = tk.Button(sort_frame, text="Priority", bg='#A9A9A9',
-                                 command=self.sort_by_priority)
-        priority_btn.pack(side='left', padx=5)
+        # Create a frame for each button to handle the background
+        priority_frame = tk.Frame(sort_frame, bg='#ABABAB', padx=0, pady=0)
+        priority_frame.pack(side='left', padx=5)
+        priority_btn = tk.Button(priority_frame, text="Priority", bg='#ABABAB', fg='black',
+                               command=self.sort_by_priority, relief='flat',
+                               highlightthickness=0, borderwidth=0, padx=10)
+        priority_btn.pack()
         
-        date_btn = tk.Button(sort_frame, text="Date", bg='#A9A9A9',
-                             command=self.sort_by_date)
-        date_btn.pack(side='left', padx=5)
+        date_frame = tk.Frame(sort_frame, bg='#ABABAB', padx=0, pady=0)
+        date_frame.pack(side='left', padx=5)
+        date_btn = tk.Button(date_frame, text="Date", bg='#ABABAB', fg='black',
+                           command=self.sort_by_date, relief='flat',
+                           highlightthickness=0, borderwidth=0, padx=10)
+        date_btn.pack()
         
         # Tasks Treeview
         columns = ('ID', 'Title', 'Description', 'Deadline', 'Priority')
@@ -87,23 +97,30 @@ class TaskManagerGUI(tk.Tk):
         self.current_tasks.pack(fill='both', padx=20)
         
         # Action Buttons Frame
-        action_frame = tk.Frame(self, bg='#87CEFA')
+        action_frame = tk.Frame(self, bg='#f0f0f0')
         action_frame.pack(fill='x', padx=20, pady=10)
         
-        edit_btn = tk.Button(action_frame, text="Edit Task", bg='#B0C4DE',
-                             command=self.edit_selected_task)
-        edit_btn.pack(side='left', padx=5)
+        edit_frame = tk.Frame(action_frame, bg='#B0C4DE', padx=0, pady=0)
+        edit_frame.pack(side='left', padx=5)
+        edit_btn = tk.Button(edit_frame, text="Edit Task", bg='#B0C4DE', fg='black',
+                           command=self.edit_selected_task, relief='flat',
+                           highlightthickness=0, borderwidth=0, padx=10)
+        edit_btn.pack()
         
-        delete_btn = tk.Button(action_frame, text="Delete Task", bg='#B0C4DE',
-                               command=self.delete_selected_task)
-        delete_btn.pack(side='left', padx=5)
+        delete_frame = tk.Frame(action_frame, bg='#B0C4DE', padx=0, pady=0)
+        delete_frame.pack(side='left', padx=5)
+        delete_btn = tk.Button(delete_frame, text="Delete Task", bg='#B0C4DE', fg='black',
+                             command=self.delete_selected_task, relief='flat',
+                             highlightthickness=0, borderwidth=0, padx=10)
+        delete_btn.pack()
     
     def create_completed_tasks_section(self):
         tk.Label(
             self,
             text="Completed Tasks:",
-            font=('Arial', 18, 'bold'),
-            bg='#87CEFA',
+            font=('Satoshi', 18, 'bold'),
+            bg='#f0f0f0',
+            fg='black',
             anchor='w'
         ).pack(padx=20, pady=(20,10), anchor='w')
         
@@ -123,14 +140,19 @@ class TaskManagerGUI(tk.Tk):
             text="Add a Task", 
             bg='#4169E1', 
             fg='black', 
-            command=self.open_add_task_window
+            command=self.open_add_task_window,
+            relief='flat',
+            highlightthickness=0,
+            borderwidth=0,
+            padx=15,
+            pady=5
         )
         add_task_btn.pack(pady=20)
     
     def open_add_task_window(self):
         add_task_window = tk.Toplevel(self)
         add_task_window.title("Add New Task")
-        add_task_window.configure(bg='#87CEFA')
+        add_task_window.configure(bg='#f0f0f0')
         
         task_form = TaskForm(
             add_task_window, 
@@ -213,7 +235,7 @@ class TaskManagerGUI(tk.Tk):
         if task:
             edit_task_window = tk.Toplevel(self)
             edit_task_window.title("Edit Task")
-            edit_task_window.configure(bg='#87CEFA')
+            edit_task_window.configure(bg='#f0f0f0')
             
             edit_form = EditTaskForm(
                 edit_task_window,

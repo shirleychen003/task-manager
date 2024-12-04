@@ -15,31 +15,31 @@ class EditTaskForm(tk.Frame):
     
     def create_widgets(self):
         # Title
-        tk.Label(self, text="Title:", bg='white').grid(row=0, column=0, padx=10, pady=10, sticky='e')
+        tk.Label(self, text="Title:", bg='white',fg='black').grid(row=0, column=0, padx=10, pady=10, sticky='e')
         self.title_entry = tk.Entry(self, width=40)
         self.title_entry.grid(row=0, column=1, padx=10, pady=10)
         self.title_entry.insert(0, self.task.title)
         
         # Description
-        tk.Label(self, text="Description:", bg='white').grid(row=1, column=0, padx=10, pady=10, sticky='e')
+        tk.Label(self, text="Description:", bg='white',fg='black').grid(row=1, column=0, padx=10, pady=10, sticky='e')
         self.description_entry = tk.Entry(self, width=40)
         self.description_entry.grid(row=1, column=1, padx=10, pady=10)
         self.description_entry.insert(0, self.task.description)
         
         # Deadline
-        tk.Label(self, text="Deadline (YYYY-MM-DD):", bg='white').grid(row=2, column=0, padx=10, pady=10, sticky='e')
+        tk.Label(self, text="Deadline (YYYY-MM-DD):", bg='white',fg='black').grid(row=2, column=0, padx=10, pady=10, sticky='e')
         self.deadline_entry = tk.Entry(self, width=40)
         self.deadline_entry.grid(row=2, column=1, padx=10, pady=10)
         deadline_str = self.task.deadline.strftime('%Y-%m-%d') if self.task.deadline else ''
         self.deadline_entry.insert(0, deadline_str)
         
         # Priority
-        tk.Label(self, text="Priority:", bg='white').grid(row=3, column=0, padx=10, pady=10, sticky='e')
+        tk.Label(self, text="Priority:", bg='white',fg='black').grid(row=3, column=0, padx=10, pady=10, sticky='e')
         self.priority_var = tk.StringVar(value=self.task.priority)
         ttk.Combobox(self, textvariable=self.priority_var, values=['High', 'Medium', 'Low'], state='readonly').grid(row=3, column=1, padx=10, pady=10, sticky='w')
         
         # Status
-        tk.Label(self, text="Status:", bg='white').grid(row=4, column=0, padx=10, pady=10, sticky='e')
+        tk.Label(self, text="Status:", bg='white',fg='black').grid(row=4, column=0, padx=10, pady=10, sticky='e')
         self.status_var = tk.StringVar(value=self.task.status)
         ttk.Combobox(self, textvariable=self.status_var, values=['Pending', 'Completed'], state='readonly').grid(row=4, column=1, padx=10, pady=10, sticky='w')
         

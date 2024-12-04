@@ -8,27 +8,27 @@ class TaskForm(tk.Frame):
         self.parent = parent
         self.task_controller = task_controller
         self.on_task_added = on_task_added
-        self.configure(bg='#87CEFA')
+        self.configure(bg='#f0f0f0')
         self.create_widgets()
     
     def create_widgets(self):
         # Title
-        tk.Label(self, text="Title:", bg='#87CEFA').grid(row=0, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Title:", bg='#f0f0f0',fg='black').grid(row=0, column=0, padx=5, pady=5, sticky='e')
         self.title_entry = tk.Entry(self, width=50)
         self.title_entry.grid(row=0, column=1, padx=5, pady=5)
         
         # Description
-        tk.Label(self, text="Description:", bg='#87CEFA').grid(row=1, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Description:", bg='#f0f0f0',fg='black').grid(row=1, column=0, padx=5, pady=5, sticky='e')
         self.description_entry = tk.Entry(self, width=50)
         self.description_entry.grid(row=1, column=1, padx=5, pady=5)
         
         # Deadline
-        tk.Label(self, text="Deadline (YYYY-MM-DD):", bg='#87CEFA').grid(row=2, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Deadline (YYYY-MM-DD):", bg='#f0f0f0',fg='black').grid(row=2, column=0, padx=5, pady=5, sticky='e')
         self.deadline_entry = tk.Entry(self, width=50)
         self.deadline_entry.grid(row=2, column=1, padx=5, pady=5)
         
         # Priority
-        tk.Label(self, text="Priority:", bg='#87CEFA').grid(row=3, column=0, padx=5, pady=5, sticky='e')
+        tk.Label(self, text="Priority:", bg='#f0f0f0',fg='black').grid(row=3, column=0, padx=5, pady=5, sticky='e')
         self.priority_var = tk.StringVar(value='Low')
         ttk.Combobox(
             self, 
