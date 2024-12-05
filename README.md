@@ -21,9 +21,8 @@ We chose the MVC (Model-View-Controller) architecture for several reasons:
 - **Add, Edit, and Delete Tasks**: Manage your tasks with ease.
 - **Task Prioritization**: Assign priorities (High, Medium, Low) to focus on important tasks.
 - **Deadline Management**: Set deadlines and receive timely notifications.
-- **Accessible Design**: High-contrast themes, adjustable font sizes, and minimalist layouts.
-- **Notifications**: Reminders for upcoming task deadlines.
-- **Progress Visualization**: View statistics and progress through intuitive charts.
+- **Accessible Design**: High-contrast themes and minimalist layouts.
+
 
 ## Project Structure
 
@@ -53,7 +52,7 @@ project/
   The entry point of the application. Initializes the main GUI and notification manager.
 
 - **setup.py**  
-  Script used for installing the application and its dependencies.
+  Script used for installing the application and its dependencies if needed.
 
 - **models/**  
   Contains data models representing core data structures.
@@ -267,7 +266,7 @@ Below are some example screenshots of the Task Manager application in action.
 
 ## Accessibility Features
 
-- **High-Contrast Options:** Enhances visibility for users with visual impairments.
+- **High-Contrast Design:** Enhances visibility for users with visual impairments.
 - **Minimalist Design:** Clean interface to reduce cognitive load.
 
 ## License
